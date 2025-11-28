@@ -109,7 +109,7 @@ A modern, interactive developer portfolio website built with **Next.js**, featur
 1. **Clone the repository**
 ```bash
 git clone https://github.com/Shubham2157/my-portfolio-ui.git
-cd portfolio-website
+cd my-portfolio-ui
 ```
 
 2. **Install dependencies**

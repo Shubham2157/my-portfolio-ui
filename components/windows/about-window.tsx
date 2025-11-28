@@ -19,7 +19,7 @@ export default function AboutWindow() {
 
         <div className="grid grid-cols-3 gap-4">
           <div className="bg-primary/10 p-2 rounded">
-            <div className="font-bold text-primary">5+</div>
+            <div className="font-bold text-primary">4+</div>
             <div className="text-xs">Years Experience</div>
           </div>
           <div className="bg-accent/10 p-2 rounded">
@@ -34,8 +34,8 @@ export default function AboutWindow() {
 
         <div>
           <h3 className="font-semibold mb-1">Education</h3>
-          <p className="text-xs">B.Tech in Computer Science</p>
-          <p className="text-xs text-muted-foreground">Indian Institute of Technology</p>
+          <p className="text-xs">B.Tech in Electronics & Computer Science</p>
+          <p className="text-xs text-muted-foreground">KIIT University</p>
         </div>
       </div>
     </div>
