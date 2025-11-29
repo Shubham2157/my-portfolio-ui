@@ -1,4 +1,4 @@
-import { Mail, Linkedin, Github, Twitter, LucideIcon } from "lucide-react"
+import { Mail, Linkedin, Github, LucideIcon } from "lucide-react"
 
 export interface SocialLink {
   id: string
@@ -13,28 +13,21 @@ export const socialLinks: SocialLink[] = [
     id: "email",
     icon: Mail,
     label: "Email",
-    url: "mailto:your.email@example.com",
+    url: "mailto:kumarshubhamjha2157@gmail.com",
     ariaLabel: "Send me an email",
   },
   {
     id: "linkedin",
     icon: Linkedin,
     label: "LinkedIn",
-    url: "https://linkedin.com/in/yourprofile",
+    url: "www.linkedin.com/in/shubham-kumar-jha-528367191",
     ariaLabel: "Visit my LinkedIn profile",
   },
   {
     id: "github",
     icon: Github,
     label: "GitHub",
-    url: "https://github.com/yourprofile",
+    url: "https://github.com/Shubham2157",
     ariaLabel: "Visit my GitHub profile",
-  },
-  {
-    id: "twitter",
-    icon: Twitter,
-    label: "Twitter",
-    url: "https://twitter.com/yourprofile",
-    ariaLabel: "Visit my Twitter profile",
-  },
+  }
 ]

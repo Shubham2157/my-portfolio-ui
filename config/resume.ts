@@ -13,8 +13,8 @@ export const resumeConfig = {
 
   // Quick summary points
   quickSummary: [
-    "Full-stack web developer with 5+ years of experience",
-    "Expertise in React, Next.js, Node.js, and TypeScript",
+    "Full-stack web developer with 4+ years of experience",
+    "Expertise in Spring framework and React.js",
     "Specialized in building scalable web applications",
     "Strong knowledge of databases and cloud services",
   ],
