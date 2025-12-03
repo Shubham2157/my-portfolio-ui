@@ -1,12 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { ExternalLink, Loader2 } from "lucide-react"
+import { ExternalLink, Loader2, Database, FileText } from "lucide-react"
 import { projectsConfig, type Project } from "@/config/projects"
+import type { DataSource } from "@/lib/data-source"
 
 export default function ProjectsWindow() {
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
+  const [dataSource, setDataSource] = useState<DataSource>("config")
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -17,12 +19,15 @@ export default function ProjectsWindow() {
           const data = await response.json()
           // Extract projects from API response wrapper
           setProjects(data.data || [])
+          setDataSource("backend")
         } else {
           setProjects(projectsConfig.projects)
+          setDataSource("config")
         }
       } catch (error) {
         // Use projects from config
         setProjects(projectsConfig.projects)
+        setDataSource("config")
       } finally {
         setLoading(false)
       }
@@ -41,7 +46,22 @@ export default function ProjectsWindow() {
 
   return (
     <div className="space-y-3">
-      <h2 className="text-xl font-bold">My Projects</h2>
+      <div className="flex items-center justify-between gap-2">
+        <h2 className="text-xl font-bold">My Projects</h2>
+        <div className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium">
+          {dataSource === "backend" ? (
+            <>
+              <Database className="w-3 h-3 text-blue-500" />
+              <span className="text-blue-600 dark:text-blue-400">Backend</span>
+            </>
+          ) : (
+            <>
+              <FileText className="w-3 h-3 text-amber-500" />
+              <span className="text-amber-600 dark:text-amber-400">Config</span>
+            </>
+          )}
+        </div>
+      </div>
       {projects.length === 0 ? (
         <p className="text-sm text-muted-foreground">No projects found</p>
       ) : (

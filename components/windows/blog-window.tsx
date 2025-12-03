@@ -1,14 +1,16 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Calendar, Loader2 } from "lucide-react"
+import { Calendar, Loader2, Database, FileText } from "lucide-react"
 import { blogConfig, type BlogPost } from "@/config/blog"
 import BlogDetailWindow from "./blog-detail-window"
+import type { DataSource } from "@/lib/data-source"
 
 export default function BlogWindow() {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
+  const [dataSource, setDataSource] = useState<DataSource>("config")
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -18,13 +20,16 @@ export default function BlogWindow() {
         if (response.ok) {
           const data = await response.json()
           setPosts(data)
+          setDataSource("backend")
         } else {
           setPosts(blogConfig.posts)
+          setDataSource("config")
         }
       } catch (error) {
         console.log("[Portfolio] Failed to fetch blog posts, using config data")
         // Use posts from config
         setPosts(blogConfig.posts)
+        setDataSource("config")
       } finally {
         setLoading(false)
       }
@@ -47,7 +52,22 @@ export default function BlogWindow() {
 
   return (
     <div className="space-y-3">
-      <h2 className="text-xl font-bold">Blog Posts</h2>
+      <div className="flex items-center justify-between gap-2">
+        <h2 className="text-xl font-bold">Blog Posts</h2>
+        <div className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium">
+          {dataSource === "backend" ? (
+            <>
+              <Database className="w-3 h-3 text-blue-500" />
+              <span className="text-blue-600 dark:text-blue-400">Backend</span>
+            </>
+          ) : (
+            <>
+              <FileText className="w-3 h-3 text-amber-500" />
+              <span className="text-amber-600 dark:text-amber-400">Config</span>
+            </>
+          )}
+        </div>
+      </div>
       {posts.length === 0 ? (
         <p className="text-sm text-muted-foreground">No blog posts found</p>
       ) : (
