@@ -1,15 +1,33 @@
-// Resume configuration
-export const resumeConfig = {
+// Resume configuration and interfaces
+export interface ResumeData {
+  fileId: string
+  url?: string
+  downloadUrl?: string
+  quickSummary: string[]
+}
+
+export interface Skill {
+  id: string
+  name: string
+  category: string
+  icon: string
+  color: string
+  level: string
+}
+
+export interface SkillsData {
+  skills: Skill[]
+}
+
+export const resumeConfig: ResumeData = {
   // Google Drive file ID for the resume
   fileId: "17BQ-M1gDH_Cf0dZGQACwlTbpuU0z1qbv",
 
-  // Get the view URL
-  getViewUrl: (fileId: string) =>
-    `https://drive.google.com/file/d/${fileId}/view?usp=sharing`,
+  // Direct URL to resume (if hosted elsewhere)
+  url: undefined,
 
-  // Get the direct download URL
-  getDownloadUrl: (fileId: string) =>
-    `https://drive.google.com/uc?export=download&id=${fileId}`,
+  // Direct download URL
+  downloadUrl: undefined,
 
   // Quick summary points
   quickSummary: [
@@ -18,4 +36,14 @@ export const resumeConfig = {
     "Specialized in building scalable web applications",
     "Strong knowledge of databases and cloud services",
   ],
+}
+
+// Helper function to get Google Drive view URL
+export function getGoogleDriveViewUrl(fileId: string): string {
+  return `https://drive.google.com/file/d/${fileId}/view?usp=sharing`
+}
+
+// Helper function to get Google Drive download URL
+export function getGoogleDriveDownloadUrl(fileId: string): string {
+  return `https://drive.google.com/uc?export=download&id=${fileId}`
 }

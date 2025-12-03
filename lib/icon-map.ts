@@ -1,21 +1,4 @@
-import {
-  SiJavascript,
-  SiTypescript,
-  SiPython,
-  SiOpenjdk,
-  SiReact,
-  SiNextdotjs,
-  SiTailwindcss,
-  SiVuedotjs,
-  SiNodedotjs,
-  SiExpress,
-  SiPostgresql,
-  SiMongodb,
-  SiGit,
-  SiDocker,
-  SiAwslambda,
-  SiVercel,
-} from "react-icons/si"
+import * as AllSimpleIcons from "react-icons/si"
 import {
   Mail,
   Linkedin,
@@ -26,23 +9,8 @@ import {
 } from "lucide-react"
 
 export const iconMap: Record<string, React.ComponentType<any>> = {
-  // react-icons (simple icons)
-  SiJavascript,
-  SiTypescript,
-  SiPython,
-  SiOpenjdk,
-  SiReact,
-  SiNextdotjs,
-  SiTailwindcss,
-  SiVuedotjs,
-  SiNodedotjs,
-  SiExpress,
-  SiPostgresql,
-  SiMongodb,
-  SiGit,
-  SiDocker,
-  SiAwslambda,
-  SiVercel,
+  // Dynamically load all SimpleIcons (react-icons/si)
+  ...AllSimpleIcons,
   
   // lucide-react icons (social and general)
   Mail,
@@ -55,7 +23,8 @@ export const iconMap: Record<string, React.ComponentType<any>> = {
 
 /**
  * Get icon component by name
- * Supports both react-icons and lucide-react icons
+ * Supports both react-icons/si and lucide-react icons
+ * Icons are automatically discovered from react-icons/si package
  */
 export function getIconComponent(iconName: string): React.ComponentType<any> | null {
   return iconMap[iconName] || null

@@ -1,0 +1,190 @@
+// Skills configuration
+export interface Skill {
+  id: string
+  name: string
+  category: string
+  icon: string
+  color?: string // Optional - auto-generated if not provided
+  level: string
+  url?: string // Official website URL
+}
+
+export interface SkillsConfig {
+  skills: Skill[]
+}
+
+export const skillsConfig: SkillsConfig = {
+  skills: [
+    {
+      id: "javascript",
+      name: "JavaScript",
+      category: "Languages",
+      icon: "SiJavascript",
+      color: "#F7DF1E",
+      level: "Expert",
+      url: "https://www.javascript.com/",
+    },
+    {
+      id: "typescript",
+      name: "TypeScript",
+      category: "Languages",
+      icon: "SiTypescript",
+      color: "#3178C6",
+      level: "Expert",
+      url: "https://www.typescriptlang.org/",
+    },
+    {
+      id: "python",
+      name: "Python",
+      category: "Languages",
+      icon: "SiPython",
+      color: "#3776AB",
+      level: "Advanced",
+      url: "https://www.python.org/",
+    },
+    {
+      id: "java",
+      name: "Java",
+      category: "Languages",
+      icon: "SiOpenjdk",
+      color: "#007396",
+      level: "Advanced",
+      url: "https://www.java.com/",
+    },
+    {
+      id: "react",
+      name: "React",
+      category: "Frontend",
+      icon: "SiReact",
+      color: "#61DAFB",
+      level: "Expert",
+      url: "https://react.dev/",
+    },
+    {
+      id: "nextjs",
+      name: "Next.js",
+      category: "Frontend",
+      icon: "SiNextdotjs",
+      color: "#000000",
+      level: "Expert",
+      url: "https://nextjs.org/",
+    },
+    {
+      id: "tailwind",
+      name: "Tailwind CSS",
+      category: "Frontend",
+      icon: "SiTailwindcss",
+      color: "#06B6D4",
+      level: "Expert",
+      url: "https://tailwindcss.com/",
+    },
+    {
+      id: "vuejs",
+      name: "Vue.js",
+      category: "Frontend",
+      icon: "SiVuedotjs",
+      color: "#4FC08D",
+      level: "Advanced",
+      url: "https://vuejs.org/",
+    },
+    {
+      id: "nodejs",
+      name: "Node.js",
+      category: "Backend",
+      icon: "SiNodedotjs",
+      color: "#339933",
+      level: "Expert",
+      url: "https://nodejs.org/",
+    },
+    {
+      id: "express",
+      name: "Express",
+      category: "Backend",
+      icon: "SiExpress",
+      color: "#000000",
+      level: "Expert",
+      url: "https://expressjs.com/",
+    },
+    {
+      id: "springboot",
+      name: "Spring Boot",
+      category: "Backend",
+      icon: "SiSpring",
+      color: "#6DB33F",
+      level: "Advanced",
+      url: "https://spring.io/projects/spring-boot",
+    },
+    {
+      id: "postgresql",
+      name: "PostgreSQL",
+      category: "Database",
+      icon: "SiPostgresql",
+      color: "#336791",
+      level: "Advanced",
+      url: "https://www.postgresql.org/",
+    },
+    {
+      id: "mysql",
+      name: "MySQL",
+      category: "Database",
+      icon: "SiMysql",
+      color: "#4479A1",
+      level: "Advanced",
+      url: "https://www.mysql.com/",
+    },
+    {
+      id: "oracle",
+      name: "Oracle",
+      category: "Database",
+      icon: "SiOracle",
+      color: "#F80000",
+      level: "Advanced",
+      url: "https://www.oracle.com/tools/sqldev/",
+    },
+    {
+      id: "mongodb",
+      name: "MongoDB",
+      category: "Database",
+      icon: "SiMongodb",
+      color: "#13AA52",
+      level: "Advanced",
+      url: "https://www.mongodb.com/",
+    },
+    {
+      id: "git",
+      name: "Git",
+      category: "Tools",
+      icon: "SiGit",
+      color: "#F1502F",
+      level: "Expert",
+      url: "https://git-scm.com/",
+    },
+    {
+      id: "docker",
+      name: "Docker",
+      category: "Tools",
+      icon: "SiDocker",
+      color: "#2496ED",
+      level: "Advanced",
+      url: "https://www.docker.com/",
+    },
+    {
+      id: "aws",
+      name: "AWS",
+      category: "Tools",
+      icon: "SiAwslambda",
+      color: "#FF9900",
+      level: "Advanced",
+      url: "https://aws.amazon.com/",
+    },
+    {
+      id: "vercel",
+      name: "Vercel",
+      category: "Tools",
+      icon: "SiVercel",
+      color: "#000000",
+      level: "Expert",
+      url: "https://vercel.com/",
+    },
+  ],
+}

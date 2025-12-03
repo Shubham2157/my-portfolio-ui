@@ -1,11 +1,52 @@
 "use client"
 
-import { Download, ExternalLink } from "lucide-react"
-import { resumeConfig } from "@/config/resume"
+import { useEffect, useState } from "react"
+import { Download, ExternalLink, Loader2, Database, FileText } from "lucide-react"
+import { resumeConfig, getGoogleDriveViewUrl, getGoogleDriveDownloadUrl, type ResumeData } from "@/config/resume"
+import type { DataSource } from "@/lib/data-source"
 
 export default function ResumeWindow() {
-  const resumeUrl = resumeConfig.getViewUrl(resumeConfig.fileId)
-  const downloadUrl = resumeConfig.getDownloadUrl(resumeConfig.fileId)
+  const [resumeData, setResumeData] = useState<ResumeData>(resumeConfig)
+  const [loading, setLoading] = useState(true)
+  const [resumeDataSource, setResumeDataSource] = useState<DataSource>("config")
+
+  useEffect(() => {
+    const fetchResumeData = async () => {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+        const response = await fetch(`${baseUrl}resume`)
+        if (response.ok) {
+          const data = await response.json()
+          setResumeData(data)
+          setResumeDataSource("backend")
+        } else {
+          setResumeData(resumeConfig)
+          setResumeDataSource("config")
+        }
+      } catch (error) {
+        console.log("[Portfolio] Failed to fetch resume data, using config data")
+        // Use resume from config
+        setResumeData(resumeConfig)
+        setResumeDataSource("config")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchResumeData()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-8">
+        <Loader2 className="w-5 h-5 animate-spin" />
+      </div>
+    )
+  }
+
+  // Determine URLs - use direct URL if available, fallback to Google Drive
+  const viewUrl = resumeData.url || getGoogleDriveViewUrl(resumeData.fileId)
+  const downloadUrl = resumeData.downloadUrl || getGoogleDriveDownloadUrl(resumeData.fileId)
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center p-6 md:p-8">
@@ -16,7 +57,23 @@ export default function ResumeWindow() {
           </div>
         </div>
 
-        <h2 className="text-2xl font-bold mb-2 text-foreground">My Resume</h2>
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <h2 className="text-2xl font-bold text-foreground">My Resume</h2>
+          <div className="flex items-center gap-1 px-2 py-1 rounded text-xs font-medium">
+            {resumeDataSource === "backend" ? (
+              <>
+                <Database className="w-3 h-3 text-blue-500" />
+                <span className="text-blue-600 dark:text-blue-400">Backend</span>
+              </>
+            ) : (
+              <>
+                <FileText className="w-3 h-3 text-amber-500" />
+                <span className="text-amber-600 dark:text-amber-400">Config</span>
+              </>
+            )}
+          </div>
+        </div>
+
         <p className="text-sm text-muted-foreground mb-6">
           Download my professional resume in PDF format to learn more about my experience, skills, and qualifications.
         </p>
@@ -31,18 +88,18 @@ export default function ResumeWindow() {
           </button>
 
           <button
-            onClick={() => window.open(resumeUrl, "_blank")}
+            onClick={() => window.open(viewUrl, "_blank")}
             className="w-full border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 text-foreground font-semibold py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-all"
           >
             <ExternalLink className="w-4 h-4" />
-            View in Google Drive
+            {resumeData.url ? "View Resume" : "View in Google Drive"}
           </button>
         </div>
 
         <div className="mt-8 p-4 bg-muted dark:bg-muted/50 rounded-lg text-left">
           <h3 className="font-semibold text-sm mb-2 text-foreground">Quick Summary</h3>
           <ul className="text-xs text-muted-foreground space-y-1">
-            {resumeConfig.quickSummary.map((point, index) => (
+            {resumeData.quickSummary.map((point, index) => (
               <li key={index}>• {point}</li>
             ))}
           </ul>

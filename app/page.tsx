@@ -48,7 +48,7 @@ export default function Home() {
         type,
         title,
         isMinimized: false,
-        isMaximized: false,
+        isMaximized: true,
         zIndex: Math.max(...prev.map((w) => w.zIndex), 0) + 1,
       },
     ])
