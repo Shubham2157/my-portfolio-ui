@@ -7,6 +7,9 @@ import Taskbar from "@/components/taskbar"
 import WindowManager from "@/components/window-manager"
 import ThemeToggle from "@/components/theme-toggle"
 
+// Dynamic rendering to avoid build errors with useSearchParams
+export const dynamic = "force-dynamic"
+
 // Window type to title mapping
 const windowTitles: Record<string, string> = {
   about: "About Me",
