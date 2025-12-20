@@ -1,6 +1,6 @@
 # 🖥️ MacBook-Themed Developer Portfolio
 
-A modern, interactive developer portfolio website built with **Next.js**, featuring a stunning MacBook desktop aesthetic with dark/light mode support, window management system, and fully configurable content.
+A modern, interactive developer portfolio website built with **Next.js**, featuring a stunning MacBook desktop aesthetic with dark/light mode support, advanced window management system, and fully configurable backend-driven content.
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.0.3-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19.2.0-blue?logo=react)
@@ -13,8 +13,10 @@ A modern, interactive developer portfolio website built with **Next.js**, featur
 - Authentic macOS desktop environment simulation
 - Traffic light window controls (Red/Yellow/Green)
 - Draggable, resizable, and maximizable windows
+- Windows open in **full-screen maximized mode** by default
 - Smooth animations and transitions
 - Professional gradient backgrounds
+- Circuit pattern backgrounds for developer aesthetic
 
 ### 🌓 **Theme System**
 - Dark/light mode toggle with persistence
@@ -24,27 +26,53 @@ A modern, interactive developer portfolio website built with **Next.js**, featur
 - Floating theme toggle in top-right corner
 
 ### 🎯 **Core Windows**
-- **My Portfolio** - About me section with personalized "SJ" initials
-- **Skills & Tech** - Categorized tech stack with icons and proficiency levels
+- **My Portfolio** - About me with education, current company, and stats
+- **Skills & Tech** - 2000+ categorized tech icons with auto-generated colors and official website links
 - **Projects** - Showcase with GitHub links and tech badges
 - **Blog** - Posts with markdown support and detailed view
 - **Resume** - PDF download via Google Drive integration
 - **Contact** - Contact form with social media links
 
-### ⚙️ **Fully Configurable**
+### ⚙️ **Backend Integration (NEW)**
+- **Data Source Indicators** - Visual badges showing if data is from backend or local config (🟦 Backend / 🟨 Config)
+- **API Fallback** - Intelligent fallback to local config if backend unavailable
+- **Configurable Windows**:
+  - About window (`/api/about`)
+  - Skills window (`/api/skills`)
+  - Projects window (`/api/projects`)
+  - Blog window (`/api/blog`)
+  - Resume window (`/api/resume`)
+  - Contact window (`/api/contact`)
+
+### 🎨 **Smart Icon System**
+- **Auto Icon Loading** - 2000+ icons from react-icons/si auto-loaded (no manual imports needed)
+- **Icon Discovery** - Complete list available in `/public/available-icons.json`
+- **Easy Backend Configuration** - Just use icon names like `SiKubernetes`, `SiGraphql`, etc.
+
+### 🌈 **Auto Color Generation**
+- **Smart Colors** - Colors auto-generated for skills if not provided in backend
+- **Consistent Hashing** - Same skill always gets same color
+- **40+ Color Palette** - Curated tech-friendly colors
+- **Optional Override** - Provide custom colors in backend API for brand matching
+
+### ✅ **Fully Configurable**
+- **Local Configuration** - TypeScript config files for local defaults
+- **Backend Configuration** - Full REST API support for all content
 - **Social Links** - Customize contact and social media icons (`config/social.ts`)
-- **Skills Data** - Tech stack with icons and levels (`data/skills.json`)
-- **Projects** - Externalized project data (`config/projects.ts`)
-- **Blog Posts** - Markdown content with detail view (`config/blog.ts`)
-- **Resume** - Configurable Google Drive file ID (`config/resume.ts`)
+- **Skills Data** - Tech stack with icons, colors, and levels (`config/skills.ts`)
+- **Projects** - Project showcase data (`config/projects.ts`)
+- **Blog Posts** - Markdown content with metadata (`config/blog.ts`)
+- **Resume** - Google Drive file ID and quick summary (`config/resume.ts`)
+- **About Data** - Personal info, stats, education, company (`config/about.ts`)
 - **API URLs** - Environment-based backend configuration (`.env.local`)
 
 ### 🚀 **Developer Experience**
-- TypeScript support
+- TypeScript support with full type safety
 - Responsive design (mobile, tablet, desktop)
 - Accessible components (ARIA labels, semantic HTML)
-- Error handling with fallback to demo data
+- Error handling with intelligent fallback
 - Production-ready build optimization
+- No manual icon imports needed
 
 ## 🛠️ Tech Stack
 
@@ -54,44 +82,49 @@ A modern, interactive developer portfolio website built with **Next.js**, featur
 | **React** | 19.2.0 | UI library |
 | **TypeScript** | 5+ | Type safety |
 | **Tailwind CSS** | 4.1.9 | Styling & responsive design |
-| **Lucide React** | Latest | UI icons |
-| **React Icons (SI)** | 5.5.0 | Tech stack icons |
+| **Lucide React** | Latest | UI icons (social, controls) |
+| **React Icons (SI)** | 5.5.0 | 2000+ tech stack icons |
 
 ## 📁 Project Structure
 
 ```
 ├── app/
 │   ├── layout.tsx          # Root layout with theme provider
-│   ├── page.tsx            # Main portfolio page
+│   ├── page.tsx            # Main portfolio page with window management
 │   └── globals.css         # Global styles & Tailwind config
 ├── components/
 │   ├── desktop.tsx         # Desktop icon grid with "SJ" initials
 │   ├── taskbar.tsx         # macOS dock-style taskbar
 │   ├── theme-provider.tsx  # Dark/light mode context
 │   ├── window-manager.tsx  # Window state management
-│   ├── window.tsx          # Draggable window component
+│   ├── window.tsx          # Draggable, resizable window component
 │   ├── theme-toggle.tsx    # Floating theme switcher
-│   ├── ui/                 # UI components (button, input, etc.)
+│   ├── navigation.tsx      # Navigation component
 │   └── windows/            # Window components
-│       ├── about-window.tsx
-│       ├── projects-window.tsx
-│       ├── blog-window.tsx
-│       ├── blog-detail-window.tsx
-│       ├── skills-window.tsx
-│       ├── resume-window.tsx
-│       └── contact-window.tsx
+│       ├── about-window.tsx       # About with company section
+│       ├── projects-window.tsx    # Projects with backend fetch
+│       ├── blog-window.tsx        # Blog posts with backend fetch
+│       ├── blog-detail-window.tsx # Blog detail view
+│       ├── skills-window.tsx      # Skills with auto colors & tooltips
+│       ├── resume-window.tsx      # Resume with backend fetch
+│       └── contact-window.tsx     # Contact form with backend fetch
 ├── config/
 │   ├── social.ts           # Social media links configuration
 │   ├── resume.ts           # Resume file ID & summary
 │   ├── projects.ts         # Projects demo data
-│   └── blog.ts             # Blog posts with markdown
-├── data/
-│   └── skills.json         # Skills with icons and levels
-├── hooks/
-│   └── use-mobile.ts       # Mobile detection hook
+│   ├── blog.ts             # Blog posts with markdown
+│   ├── skills.ts           # Skills with 19+ technologies
+│   └── about.ts            # About data with stats & education
 ├── lib/
+│   ├── icon-map.ts         # Icon mapping (2000+ auto-loaded icons)
+│   ├── color-generator.ts  # Smart color generation for skills
+│   ├── data-source.ts      # Data source tracking utilities
 │   └── utils.ts            # Utility functions
-├── public/                 # Static assets
+├── public/
+│   ├── available-icons.json        # Complete list of 2000+ icons
+│   ├── ICONS_REFERENCE.md          # Icon usage guide
+│   ├── BACKEND_SKILLS_CONFIG.md    # Backend skills configuration
+│   └── [other static assets]
 ├── .env.local              # Environment variables
 ├── tsconfig.json           # TypeScript configuration
 ├── tailwind.config.ts      # Tailwind CSS configuration
@@ -122,7 +155,7 @@ npm install
 3. **Set up environment variables**
 Create `.env.local` in the root directory:
 ```env
-NEXT_PUBLIC_API_BASE_URL=https://your-api.com/api
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8080/api/
 ```
 
 4. **Run development server**
@@ -136,118 +169,228 @@ Open [http://localhost:3000](http://localhost:3000) to view the portfolio.
 
 ## 📝 Configuration Guide
 
-### 1. Social Media Links (`config/social.ts`)
+### Quick Start: Local Configuration
 
-Update social media URLs and add/remove platforms:
+All windows work out of the box with default local configuration. No backend required!
 
-```typescript
-export const socialLinks: SocialLink[] = [
-  {
-    id: "email",
-    icon: Mail,
-    label: "Email",
-    url: "mailto:your.email@example.com",
-    ariaLabel: "Send me an email",
-  },
-  {
-    id: "linkedin",
-    icon: Linkedin,
-    label: "LinkedIn",
-    url: "https://linkedin.com/in/yourprofile",
-    ariaLabel: "Visit my LinkedIn profile",
-  },
-  // Add more social links...
-]
+### Backend Configuration (Optional)
+
+To use backend API instead of local config:
+
+1. **Set API URL** in `.env.local`:
+```env
+NEXT_PUBLIC_API_BASE_URL=https://your-api.com/api/
 ```
 
-### 2. Skills & Tech Stack (`data/skills.json`)
+2. **Implement API endpoints** on your backend:
+   - `GET /api/about` - About data
+   - `GET /api/skills` - Skills list
+   - `GET /api/projects` - Projects list
+   - `GET /api/blog` - Blog posts
+   - `GET /api/resume` - Resume data
+   - `POST /api/contact` - Contact form submission
 
-Customize your technical skills with icons and proficiency levels:
+3. **Fallback behavior** - If API fails, app automatically uses local config
 
-```json
+### 1. About Window (`config/about.ts`)
+
+```typescript
+export interface AboutData {
+  name: string              // Full name
+  title: string            // Job title
+  bio: string              // Biography
+  stats: StatItem[]        // Experience, projects, etc.
+  education: EducationItem[] // Education history
+  company?: CompanyItem    // Current employment
+}
+
+// Example backend response:
 {
-  "categories": {
-    "Languages": [
-      {
-        "name": "TypeScript",
-        "icon": "SiTypescript",
-        "color": "#3178c6",
-        "level": "Expert"
-      }
-    ]
+  "name": "Shubham Kumar Jha",
+  "title": "Software Engineer",
+  "bio": "Passionate developer...",
+  "stats": [
+    { "label": "Years Experience", "value": "4+" },
+    { "label": "Projects", "value": "20+" }
+  ],
+  "education": [
+    { "degree": "B.Tech", "institution": "KIIT University" }
+  ],
+  "company": {
+    "name": "Tech Company",
+    "position": "Senior Engineer"
   }
 }
 ```
 
-### 3. Projects (`config/projects.ts`)
+### 2. Skills Window (`config/skills.ts`)
 
-Add your portfolio projects:
-
-```typescript
-export const demoProjects: Project[] = [
-  {
-    id: "project-1",
-    title: "Project Name",
-    description: "Project description",
-    tech: ["React", "TypeScript", "Tailwind"],
-    github: "https://github.com/yourprofile/project",
-    demo: "https://project-demo.com"
-  }
-]
-```
-
-### 4. Blog Posts (`config/blog.ts`)
-
-Create blog posts with markdown content:
+**Features:**
+- Auto-generates colors if not provided
+- Clickable skills with official website URLs
+- Hover tooltips showing full skill name
+- Organized by category (Languages, Frontend, Backend, Database, Tools)
+- 2000+ icons available
 
 ```typescript
-export const demoBlogPosts: BlogPost[] = [
-  {
-    id: "post-1",
-    title: "Blog Post Title",
-    date: "2025-01-15",
-    readTime: "5 min read",
-    content: "# Markdown content here..."
-  }
-]
-```
+export interface Skill {
+  id: string           // Unique identifier
+  name: string         // Display name
+  category: string     // Category for grouping
+  icon: string         // Icon name (e.g., "SiKubernetes")
+  color?: string       // Optional hex color (auto-generated if not provided)
+  level: string        // "Beginner" | "Intermediate" | "Advanced" | "Expert"
+  url?: string         // Official website URL
+}
 
-### 5. Resume (`config/resume.ts`)
-
-Update your resume file ID and quick summary:
-
-```typescript
-export const resumeConfig = {
-  fileId: "YOUR_GOOGLE_DRIVE_FILE_ID",
-  quickSummary: [
-    "Full-stack developer with 5+ years experience",
-    "Specialized in React, Node.js, and TypeScript",
-    // Add more points...
+// Example backend response:
+{
+  "skills": [
+    {
+      "id": "kubernetes",
+      "name": "Kubernetes",
+      "category": "Tools",
+      "icon": "SiKubernetes",
+      "level": "Advanced",
+      "url": "https://kubernetes.io/"
+      // color will be auto-generated
+    },
+    {
+      "id": "graphql",
+      "name": "GraphQL",
+      "category": "Tools",
+      "icon": "SiGraphql",
+      "color": "#E10098",
+      "level": "Advanced",
+      "url": "https://graphql.org/"
+    }
   ]
 }
 ```
 
-### 6. API Configuration (`.env.local`)
+**Icon Discovery:**
+- Find icons at: https://react-icons.github.io/react-icons/search?q=si
+- Complete list: `/public/available-icons.json`
+- Reference guide: `/public/ICONS_REFERENCE.md`
 
-Set your backend API base URL:
+### 3. Projects (`config/projects.ts`)
 
-```env
-NEXT_PUBLIC_API_BASE_URL=https://your-api.com/api
+```typescript
+export interface Project {
+  id: string
+  title: string
+  description: string
+  tech: string[]
+  github: string
+  demo?: string
+}
+
+// Example backend response:
+{
+  "projects": [
+    {
+      "id": "project-1",
+      "title": "Portfolio Website",
+      "description": "MacBook-themed portfolio",
+      "tech": ["Next.js", "React", "Tailwind"],
+      "github": "https://github.com/user/project",
+      "demo": "https://project.com"
+    }
+  ]
+}
 ```
 
-The portfolio will try to fetch data from the backend first, then fall back to config data if the API is unavailable.
+### 4. Blog Posts (`config/blog.ts`)
+
+```typescript
+export interface BlogPost {
+  id: string
+  title: string
+  date: string
+  readTime: string
+  content: string  // Markdown
+  image?: string
+  tags?: string[]
+}
+
+// Example backend response:
+{
+  "blog": [
+    {
+      "id": "post-1",
+      "title": "Getting Started with Next.js",
+      "date": "2025-01-15",
+      "readTime": "5 min read",
+      "content": "# Blog content in markdown...",
+      "tags": ["next.js", "react"]
+    }
+  ]
+}
+```
+
+### 5. Resume (`config/resume.ts`)
+
+```typescript
+// Example backend response:
+{
+  "resumeUrl": "https://drive.google.com/file/d/FILE_ID/view",
+  "downloadUrl": "https://drive.google.com/uc?id=FILE_ID&export=download",
+  "summary": [
+    "5+ years of full-stack development",
+    "Expert in React and Node.js"
+  ]
+}
+```
+
+### 6. Contact/Social Media (`config/social.ts`)
+
+```typescript
+// Example backend response:
+{
+  "email": "your.email@example.com",
+  "socialLinks": [
+    { "icon": "Mail", "label": "Email", "url": "mailto:..." },
+    { "icon": "Linkedin", "label": "LinkedIn", "url": "https://..." },
+    { "icon": "Github", "label": "GitHub", "url": "https://..." }
+  ]
+}
+```
+
+### 7. Environment Variables (`.env.local`)
+
+```env
+# Backend API Configuration
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8080/api/
+
+# Optional: Add other environment variables as needed
+```
 
 ## 🎨 Customization
 
-### Personalize Desktop Icon
+### Auto Color Generation for Skills
 
-The "My Portfolio" desktop icon displays personalized text initials. Edit `components/desktop.tsx`:
+Colors are automatically generated using a hash-based algorithm:
 
 ```typescript
-{ id: "about", icon: null, label: "My Portfolio", type: "about", title: "About Me", initials: "SJ" }
+// In lib/color-generator.ts
+export function generateColorFromName(name: string): string {
+  // Hash name → select from 40-color palette → return consistent color
+}
 ```
 
-Change `"SJ"` to your own initials.
+**40+ Color Palette includes:**
+- Official brand colors for popular tech (JavaScript Yellow, Python Blue, React Cyan, etc.)
+- Vibrant tech-friendly colors (purples, teals, oranges, etc.)
+- High contrast colors for dark and light modes
+
+### Personalize Desktop Icon
+
+Edit `components/desktop.tsx`:
+
+```typescript
+{ id: "about", label: "My Portfolio", initials: "SJ" }
+// Change "SJ" to your own initials
+```
 
 ### Theme Colors
 
@@ -255,16 +398,28 @@ Modify Tailwind CSS theme in `tailwind.config.ts`:
 
 ```typescript
 colors: {
-  primary: {
-    light: "#your-color",
-    dark: "#your-color"
-  }
+  primary: { ... },
+  secondary: { ... },
+  accent: { ... }
 }
 ```
 
-### Wallpaper Patterns
+### Window Default Size
 
-Update background patterns in `globals.css` for different developer aesthetics.
+Change in `components/window.tsx`:
+
+```typescript
+const [size, setSize] = useState({ width: 600, height: 500 })
+// Adjust width and height as needed
+```
+
+## 📊 Data Source Indicators
+
+Each window displays a badge showing the data source:
+- **🟦 Backend** - Data fetched from API
+- **🟨 Config** - Data from local configuration (fallback)
+
+This helps you verify which source is being used.
 
 ## 📦 Build & Deploy
 
@@ -279,52 +434,54 @@ pnpm build
 pnpm start
 ```
 
-### Static Export (for static hosting)
-```bash
-pnpm build
-# Output: out/
-```
-
 ### Deploy to Vercel
 ```bash
-# Install Vercel CLI
-pnpm install -g vercel
-
-# Deploy
 vercel
 ```
 
 ### Deploy to Other Platforms
-- **Netlify**: Drag and drop the `out/` directory
-- **GitHub Pages**: Configure for Next.js static export
-- **Docker**: Create Dockerfile with Node.js image
+- **Netlify**: Drag and drop build output
+- **Docker**: Use Node.js base image
+- **GitHub Pages**: Configure for static export
 
-## 🎯 Window Management Features
+## 🎯 Advanced Features
 
-- **Drag Windows**: Click and drag title bar to move windows
-- **Resize Windows**: Drag edges and corners to resize
-- **Maximize**: Click green traffic light button
-- **Minimize**: Click yellow traffic light button
-- **Close**: Click red traffic light button
-- **z-index Management**: Windows come to front when clicked
-- **Focus States**: Visual feedback for active windows
+### Window Management
+- **Drag**: Click and drag title bar
+- **Resize**: Drag edges/corners (when not maximized)
+- **Maximize**: Click green traffic light
+- **Minimize**: Click yellow traffic light
+- **Close**: Click red traffic light
+- **Z-index**: Automatic focus management
 
-## 🌐 API Integration
+### Skill Features
+- **Clickable Skills**: Click to visit official website
+- **Hover Tooltips**: Full skill name shows on hover
+- **Color Consistency**: Same skill always gets same color
+- **Category Grouping**: Skills organized by type
+- **Icon Fallback**: Shows initials if icon not found
 
-The portfolio supports backend API integration with fallback to config data:
+### About Window Features
+- **Stats Display**: Years, projects, satisfaction metrics
+- **Education**: Multiple education entries
+- **Current Company**: Company name and position
+- **Beautified UI**: Color-coded sections with icons
 
-```typescript
-// Tries API first
-const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/projects`)
+## 🌐 API Response Format
 
-// Falls back to config if API fails
-const projects = data || demoProjects
+All endpoints should return JSON:
+
+```json
+{
+  "data": { ... },
+  "error": null
+}
+// or on error:
+{
+  "data": null,
+  "error": "Error message"
+}
 ```
-
-**Supported Endpoints:**
-- `GET /api/projects` - Fetch projects list
-- `GET /api/blog` - Fetch blog posts
-- `POST /api/contact` - Submit contact form
 
 ## ♿ Accessibility
 
@@ -333,65 +490,71 @@ const projects = data || demoProjects
 - Keyboard navigation support
 - Color contrast compliance
 - Screen reader friendly
+- Focus indicators on all controls
 
 ## 📱 Responsive Design
 
-- **Mobile**: Optimized for small screens with touch support
-- **Tablet**: Adjusted layout for medium screens
-- **Desktop**: Full featured with all capabilities
-- **Dock Overflow**: Horizontal scrolling on mobile for taskbar
+- **Mobile**: Touch-friendly, full-width windows
+- **Tablet**: Adjusted layouts
+- **Desktop**: Full featured experience
+- **Taskbar**: Horizontal scroll on mobile
 
 ## 🔒 Security
 
+- No hardcoded credentials
 - Environment variables for sensitive data
 - CORS headers configured
-- XSS protection with React's sanitization
-- No hardcoded credentials
-- Secure external link handling (`rel="noopener noreferrer"`)
+- Secure external links
+- XSS protection via React
 
 ## 📊 Performance
 
-- **Turbopack**: Fast compilation and hot reload
-- **Optimized Images**: Automatic Next.js image optimization
-- **CSS-in-JS**: Tailwind's purged CSS
-- **Code Splitting**: Automatic chunk splitting
-- **Static Generation**: SSG support for blog posts
+- Turbopack for fast compilation
+- Automatic code splitting
+- Image optimization
+- CSS purging with Tailwind
+- Production-ready builds
 
 ## 🐛 Troubleshooting
 
-### Theme not persisting?
-- Check localStorage is enabled in browser
-- Verify `.env.local` is properly configured
+### "No data found" error?
+- Verify backend is running at `NEXT_PUBLIC_API_BASE_URL`
+- Check CORS headers
+- App will fallback to local config (check data source badge)
 
-### API calls failing?
-- Ensure `NEXT_PUBLIC_API_BASE_URL` is set correctly
-- Check CORS headers on backend
-- Portfolio will fallback to config data
+### Skills showing initials instead of icons?
+- Verify icon name exists in react-icons/si
+- Check `/public/available-icons.json` for valid names
+- Use format: `SiTechName` (PascalCase)
 
-### Windows not dragging?
-- Ensure JavaScript is enabled
-- Try refreshing the page
-- Check browser console for errors
+### API not being called?
+- Check console for fetch errors
+- Verify `.env.local` has correct API URL
+- Ensure API endpoint matches expected format
 
-### Mobile layout issues?
-- Use `use-mobile` hook for responsive logic
-- Test with mobile device emulation in DevTools
-- Verify Tailwind breakpoints are applied
+### Colors look wrong?
+- Provide explicit color in backend response
+- Check hex color format is valid
+- Verify color contrast in dark/light modes
+
+## 📚 Documentation
+
+- **Icon Guide**: `/public/ICONS_REFERENCE.md`
+- **Backend Config**: `/public/BACKEND_SKILLS_CONFIG.md`
+- **Available Icons**: `/public/available-icons.json`
 
 ## 📝 License
 
-This project is open source and available for personal and commercial use.
+Open source and available for personal and commercial use.
 
 ## 🤝 Contributing
 
-Feel free to fork this repository and customize it for your portfolio!
+Fork the repository and customize for your portfolio!
 
 ## 📧 Support
 
-For questions or issues, please open an issue on GitHub or contact through the portfolio's contact form.
+Open an issue on GitHub or use the contact form in the portfolio.
 
 ---
 
-**Built with ❤️ using Next.js & Tailwind CSS**
-
-[Live Demo](https://your-portfolio.com) | [GitHub](https://github.com/yourprofile/portfolio) | [Contact](mailto:your-email@example.com)
+**Built with ❤️ using Next.js, React, TypeScript & Tailwind CSS**

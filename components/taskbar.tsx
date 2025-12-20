@@ -14,9 +14,10 @@ interface TaskbarProps {
   windows: Window[]
   onToggleMinimize: (id: string) => void
   onBringToFront: (id: string) => void
+  onWindowFocus?: (type: string, postId?: string) => void
 }
 
-export default function Taskbar({ windows, onToggleMinimize, onBringToFront }: TaskbarProps) {
+export default function Taskbar({ windows, onToggleMinimize, onBringToFront, onWindowFocus }: TaskbarProps) {
   const [time, setTime] = useState<string>("")
 
   useEffect(() => {
@@ -45,6 +46,11 @@ export default function Taskbar({ windows, onToggleMinimize, onBringToFront }: T
                   onToggleMinimize(window.id)
                 }
                 onBringToFront(window.id)
+                // Update URL when clicking on taskbar item
+                if (onWindowFocus) {
+                  const postId = window.type === "blog" ? new URLSearchParams(window.id).get("postId") : undefined
+                  onWindowFocus(window.type, postId)
+                }
               }}
               title={window.title}
               className="px-3 py-1.5 bg-gray-200/60 dark:bg-gray-700/60 hover:bg-gray-300/80 dark:hover:bg-gray-600/80 text-xs text-gray-800 dark:text-gray-100 rounded-lg transition-all truncate max-w-xs font-medium shadow-sm border border-gray-400/30 dark:border-gray-600/30 flex-shrink-0"

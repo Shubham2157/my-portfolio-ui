@@ -1,15 +1,17 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { Calendar, Loader2, Database, FileText } from "lucide-react"
 import { blogConfig, type BlogPost } from "@/config/blog"
 import BlogDetailWindow from "./blog-detail-window"
 import type { DataSource } from "@/lib/data-source"
 
 export default function BlogWindow() {
+  const searchParams = useSearchParams()
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedPostId, setSelectedPostId] = useState<string | null>(null)
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(searchParams.get("postId") || null)
   const [dataSource, setDataSource] = useState<DataSource>("config")
 
   useEffect(() => {
@@ -47,7 +49,16 @@ export default function BlogWindow() {
   }
 
   if (selectedPostId) {
-    return <BlogDetailWindow postId={selectedPostId} onBack={() => setSelectedPostId(null)} />
+    return (
+      <BlogDetailWindow
+        postId={selectedPostId}
+        onBack={() => {
+          setSelectedPostId(null)
+          // Update URL back to just blog window
+          window.history.pushState(null, "", "?window=blog")
+        }}
+      />
+    )
   }
 
   return (
@@ -75,7 +86,11 @@ export default function BlogWindow() {
           {posts.map((post) => (
             <button
               key={post.id}
-              onClick={() => setSelectedPostId(post.id)}
+              onClick={() => {
+                setSelectedPostId(post.id)
+                // Update URL to include blog post ID
+                window.history.pushState(null, "", `?window=blog&postId=${post.id}`)
+              }}
               className="w-full text-left border border-border p-3 rounded hover:bg-muted/50 transition-colors cursor-pointer group"
             >
               <h3 className="font-semibold text-sm mb-1 group-hover:text-primary transition-colors">{post.title}</h3>

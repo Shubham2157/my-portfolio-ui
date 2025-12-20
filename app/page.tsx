@@ -1,12 +1,24 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
 import Desktop from "@/components/desktop"
 import Taskbar from "@/components/taskbar"
 import WindowManager from "@/components/window-manager"
 import ThemeToggle from "@/components/theme-toggle"
 
+// Window type to title mapping
+const windowTitles: Record<string, string> = {
+  about: "About Me",
+  projects: "My Projects",
+  blog: "Blog",
+  skills: "Skills & Tech",
+  resume: "Download Resume",
+  contact: "Get In Touch",
+}
+
 export default function Home() {
+  const searchParams = useSearchParams()
   const [windows, setWindows] = useState<
     Array<{
       id: string
@@ -17,6 +29,7 @@ export default function Home() {
       zIndex: number
     }>
   >([])
+  const [initialized, setInitialized] = useState(false)
 
   const openWindow = (type: string, title: string) => {
     const existingWindow = windows.find((w) => w.type === type)
@@ -37,6 +50,8 @@ export default function Home() {
           return prev.map((w) => (w.id === existingWindow.id ? { ...w, zIndex: maxZ + 1 } : w))
         })
       }
+      // Update URL when bringing window to front
+      window.history.pushState(null, "", `?window=${type}`)
       return
     }
 
@@ -52,10 +67,14 @@ export default function Home() {
         zIndex: Math.max(...prev.map((w) => w.zIndex), 0) + 1,
       },
     ])
+    // Update URL when opening new window
+    window.history.pushState(null, "", `?window=${type}`)
   }
 
   const closeWindow = (id: string) => {
     setWindows((prev) => prev.filter((w) => w.id !== id))
+    // Clear URL when closing window
+    window.history.pushState(null, "", "/")
   }
 
   const toggleMinimize = (id: string) => {
@@ -72,6 +91,27 @@ export default function Home() {
       return prev.map((w) => (w.id === id ? { ...w, zIndex: maxZ + 1 } : w))
     })
   }
+
+  // Handle window focus from taskbar with URL update
+  const handleWindowFocus = (type: string, postId?: string) => {
+    if (postId) {
+      window.history.pushState(null, "", `?window=${type}&postId=${postId}`)
+    } else {
+      window.history.pushState(null, "", `?window=${type}`)
+    }
+  }
+
+  // Handle URL-based window opening on mount
+  useEffect(() => {
+    if (initialized) return
+
+    const windowParam = searchParams.get("window")
+    if (windowParam && windowTitles[windowParam]) {
+      openWindow(windowParam, windowTitles[windowParam])
+    }
+
+    setInitialized(true)
+  }, [searchParams, initialized])
 
   return (
     <div className="w-full h-screen macbook-bg overflow-hidden relative pb-12">
@@ -96,7 +136,7 @@ export default function Home() {
         onBringToFront={bringToFront}
       />
 
-      <Taskbar windows={windows} onToggleMinimize={toggleMinimize} onBringToFront={bringToFront} />
+      <Taskbar windows={windows} onToggleMinimize={toggleMinimize} onBringToFront={bringToFront} onWindowFocus={handleWindowFocus} />
     </div>
   )
 }
