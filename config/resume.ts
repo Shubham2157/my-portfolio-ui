@@ -21,7 +21,7 @@ export interface SkillsData {
 
 export const resumeConfig: ResumeData = {
   // Google Drive file ID for the resume
-  fileId: "17BQ-M1gDH_Cf0dZGQACwlTbpuU0z1qbv",
+  fileId: "1R4w3En63rNd2l6jn8gV-2B11-tBg_YBk",
 
   // Direct URL to resume (if hosted elsewhere)
   url: undefined,
